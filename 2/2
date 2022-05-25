@@ -1,0 +1,24 @@
+<form    action="1.php" method="post" enctype="multipart/form-data">
+<p>
+ <center><label>Выберите данные<br></label>
+ <input type="FILE" name="fupload"></center>
+<br>
+<center><input    type="submit" name="submit"    value="OK"></center>
+</p>
+</form>
+
+<?php  
+ if(isset($_FILES['fupload'])){
+  $file = file($_FILES['fupload']['tmp_name']);
+  $newDir = './' . "upload";
+  mkdir($newDir);
+  $s = implode(" ", $file);
+  $s = str_replace(' ', ';', $s);
+  $s = explode(";", $s);
+  file_put_contents($newDir . './' . $s[0], $s[1]);
+  file_put_contents($newDir . './' . $s[2], $s[3]);
+  file_put_contents($newDir . './' . $s[4], $s[5]);
+}
+?>
+
+//CSV файл может быть с разделителем в виде "," тогда файлы не запишутся в папку(возможно решить с помощью создания двух вариантов загрузки, реализовать можно через if() else). Также могут быть проблемы с созданием папки, нужно реализовать проверку на существование папки. Также нелзя, чтобы были пробелы между словами, потому что тогда файлы запишутся неправильно.
